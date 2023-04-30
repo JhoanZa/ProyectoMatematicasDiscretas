@@ -1,7 +1,0 @@
-E:\Univerisidad\ProyectoMatematicasDiscretas\obj\Release\net6.0\PubTmp\Out\ProyectoMatematicasDiscretas.exe
-E:\Univerisidad\ProyectoMatematicasDiscretas\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
-E:\Univerisidad\ProyectoMatematicasDiscretas\obj\Release\net6.0\PubTmp\Out\appsettings.json
-E:\Univerisidad\ProyectoMatematicasDiscretas\obj\Release\net6.0\PubTmp\Out\ProyectoMatematicasDiscretas.dll
-E:\Univerisidad\ProyectoMatematicasDiscretas\obj\Release\net6.0\PubTmp\Out\ProyectoMatematicasDiscretas.deps.json
-E:\Univerisidad\ProyectoMatematicasDiscretas\obj\Release\net6.0\PubTmp\Out\ProyectoMatematicasDiscretas.runtimeconfig.json
-E:\Univerisidad\ProyectoMatematicasDiscretas\obj\Release\net6.0\PubTmp\Out\ProyectoMatematicasDiscretas.pdb
