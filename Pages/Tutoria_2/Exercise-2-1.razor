@@ -1,0 +1,75 @@
+﻿@page "/class-2/exercise-1"
+@using ProyectoMatematicasDiscretas.Data;
+<PageTitle>Ejercicio 2-1</PageTitle>
+<h3>Algoritmo 4.1.2</h3>
+
+<EditForm Model="@_calculator" OnValidSubmit="@AddedNumber">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-xl-3">Dato</th>
+                <th class="col-xl-3">Valor</th>
+                <th class="col-xl-3"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th><label>Longitud del arreglo</label></th>
+                <th><InputNumber @bind-Value="_calculator.ArrayLength"></InputNumber></th>
+                <th><button type="button" @onclick="DefineArrayLength">@_buttonArrayText</button></th>
+            </tr>
+            <tr>
+                <th><label>Número a agregar</label></th>
+                <th><InputNumber @bind-Value="_numberToAdd"></InputNumber></th>
+                <th></th>
+            </tr>
+            <tr>
+                <th><label>Números dentro de la sucesión</label></th>
+                <th><label>@string.Join(',',_arrayNumbers)</label></th>
+            </tr>
+            <tr>
+                <th><label>Número mayor de la sucesión</label></th>
+                <th>@_calculator.MaxValue</th>
+            </tr>
+        </tbody>
+    </table>
+    <button disabled="@_isDisabled" type="submit">Agregar número</button>
+</EditForm>
+
+@code {
+
+    private CalculatorMaxValue _calculator = new CalculatorMaxValue();
+    private bool _isDisabled;
+    private int[] _arrayNumbers = new int[1];
+    private int _count;
+    private int _numberToAdd;
+    private string _buttonArrayText;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _buttonArrayText = "Definir tamaño";
+    }
+
+    private void DefineArrayLength()
+    {
+        this._isDisabled = false;
+        this._arrayNumbers = new int[this._calculator.ArrayLength];
+        this._count = 0;
+        this._buttonArrayText = "Resetear tamaño y datos";
+        this._calculator.MaxValue = 0;
+    }
+
+    private void AddedNumber()
+    {
+        if (this._count < this._arrayNumbers.Length)
+        {
+            this._arrayNumbers[this._count] = this._numberToAdd;
+            this._calculator.MaxValue = ((IEnumerable<int>)this._arrayNumbers).Max();
+        }
+        ++this._count;
+        if (this._count == this._arrayNumbers.Length)
+        {
+            this._isDisabled = true;
+        }
+    }
+}
