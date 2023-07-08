@@ -1,0 +1,99 @@
+﻿@page "/class-3/exercise-4"
+<PageTitle>Ejercicio 3-4</PageTitle>
+<h3>Generador aleatorio de matrices de adyacentes</h3>
+<button type="button" @onclick="generateAdjacencyMatrix">Generar matriz</button>
+<table class="table">
+    <thead>
+        <tr>
+            <th class="col-xl-3">Dato</th>
+            <th class="col-xl-3">Valor</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <th><label>Número de aristas</label></th>
+            <th>@_edgeNumber</th>
+        </tr>
+        <tr>
+            <th><label>Número de lazos</label></th>
+            <th>@_loopNumber</th>
+        </tr>
+
+        <tr>
+            <th><label>Grado de los vértices</label></th>
+            <th>
+                <table>
+                    <tbody>
+                        @foreach (var vertice in _degreeVertices)
+                        {
+                            <tr>
+                                <th>Vértice @vertice.Key: Grado @vertice.Value</th>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+        <tr>
+            <th><label>Matriz de adyacencia</label></th>
+            <th>
+                <table>
+                    <tbody>
+                        @foreach (var matrix in _adjacencyMatrix)
+                        {
+                            <tr>
+                                <th>{@string.Join(',',matrix)}</th>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+    </tbody>
+</table>
+
+
+@code {
+    private int _edgeNumber = 0;
+    private int _loopNumber = 0;
+    private int _nodesNumber = 0;
+    private Dictionary<string, int> _degreeVertices = new Dictionary<string, int>();
+    private int[][] _adjacencyMatrix = new int[0][];
+
+    private void generateAdjacencyMatrix()
+    {
+        Random random = new Random();
+        _nodesNumber = random.Next(2,8);
+        int degreeTotal = 0;
+        //Reseteo de datos
+        _adjacencyMatrix = new int[_nodesNumber][];
+        _edgeNumber = 0;
+        _loopNumber = 0;
+        _degreeVertices = new Dictionary<string, int>();
+
+        for (int i = 0; i < _nodesNumber;i++)
+        {
+            _adjacencyMatrix[i] = new int[_nodesNumber];
+
+            for (int j = 0; j < _nodesNumber;j++)
+            {
+                int randomConnection = random.Next(0, 2);
+                if (0 < randomConnection)
+                {
+                    if (i == j)
+                    {
+                        _loopNumber++;
+                    }
+                    _edgeNumber += randomConnection;
+                    degreeTotal++;
+                }
+                _adjacencyMatrix[i][j] = randomConnection;
+            }
+            _degreeVertices.Add(char.ConvertFromUtf32(i + 65),degreeTotal);
+            degreeTotal = 0;
+        }
+
+        _edgeNumber /= 2;
+    }
+}
