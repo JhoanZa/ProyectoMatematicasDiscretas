@@ -1,0 +1,46 @@
+﻿@page "/class-4/exercise-4"
+<PageTitle>Ejercicio 4-4</PageTitle>
+<h3>Calculador de deficiencias en la red</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th class="col-xl-3">Datos</th>
+            <th class="col-xl-9">Valor</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th><label>Matriz adyacente</label></th>
+            <th><input type="text" @bind-value="_matrix"/></th>
+        </tr>
+        <tr>
+            <th><label>Deficiencia de la red</label></th>
+            <th>@_deficiency</th>
+        </tr>
+    </tbody>
+</table>
+<button type="button" @onclick="deficiencyCalculate">Calcular</button>
+
+@code {
+    private int _verticesNumber = 0;
+    private int _edgesNumber = 0;
+    private double _deficiency = 0.0;
+    private string _matrix = string.Empty;
+    private int[][] _adjacencyMatrix = new int[0][];
+    private int _maxEdgesNumber = 0;
+
+    private void deficiencyCalculate()  
+    {
+        string[] rows = _matrix.Split("},");
+        _adjacencyMatrix = new int[rows.Length][];
+        _verticesNumber = rows.Length;
+        _edgesNumber = 0;
+        for (int i = 0; i < rows.Length; i++)
+        {
+            _adjacencyMatrix[i] = rows[i].Trim('}', '{').Split(',').Select(x => int.Parse(x)).ToArray();
+            _edgesNumber += _adjacencyMatrix[i].Sum();
+        }
+        _maxEdgesNumber = (_verticesNumber * (_verticesNumber - 1)) / 2;
+        _deficiency = _maxEdgesNumber - _edgesNumber;
+    }
+}

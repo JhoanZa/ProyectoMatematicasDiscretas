@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\Tutoria_5\" />
-    <Folder Include="Pages\Tutoria_4\" />
   </ItemGroup>
 
 </Project>
