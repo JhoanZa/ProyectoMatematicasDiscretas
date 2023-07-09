@@ -1,0 +1,92 @@
+﻿@page "/class-5/exercise-4"
+<PageTitle>Ejercicio 5-4</PageTitle>
+<h3>Automata</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="col-xl-3">Dato</th>
+            <th class="col-xl-3">Valor</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th><label>Ingrese un simbolos</label></th>
+            <th><input type="text" @bind-value="_character" /></th>
+        </tr>
+        <tr>
+            <th><label>Ultimo símbolo de entrada:</label></th>
+            <th>@_character</th>
+        </tr>
+        <tr>
+            <th><label>Estado actual:</label></th>
+            <th>@_currentStatus</th>
+        </tr>
+        <tr>
+            <th><label>Estado siguiente:</label></th>
+            <th>@_nextStatus</th>
+        </tr>
+        <tr>
+            <th><label>Cadena generada:</label></th>
+            <th>@_chainGenerate</th>
+        </tr>
+        <tr>
+            <th>
+                <button type="button" @onclick="Simulate">Simular</button>
+            </th>
+        </tr>
+    </tbody>
+</table>
+
+@code {
+    private char _character;
+    private string _resultCharacter = string.Empty;
+    private string _currentStatusInside = "A";
+    private string _currentStatus = "A";
+    private string _lastStatus = string.Empty;
+    private string _nextStatus = string.Empty;
+
+    // Definir la función del siguiente estado
+    Dictionary<string, Dictionary<char, string>> _transactions = new Dictionary<string, Dictionary<char, string>>
+        {
+            {"A", new Dictionary<char, string> { {'0', "B"}, {'1', "A"} }},
+            {"B", new Dictionary<char, string> { {'0', "B"}, {'1', "C"} }},
+            {"C", new Dictionary<char, string> { {'0', "D"}, {'1', "A"} }},
+            {"D", new Dictionary<char, string> { {'0', "D"}, {'1', "D"} }}
+        };
+
+    Dictionary<string, char> _outputValue = new Dictionary<string, char>
+        {
+            {"A", '0'},
+            {"B", '1'},
+            {"C", '0'},
+            {"D", '1'}
+        };
+
+    // Definir el estado inicial
+
+    private string _chainGenerate = string.Empty;
+
+
+    private void Simulate()
+    {
+        _currentStatus = _currentStatusInside;
+        if (_transactions[_currentStatusInside].ContainsKey(_character))
+        {
+            if (_chainGenerate.Equals("Error: Transición no válida"))
+            {
+                _chainGenerate = string.Empty;
+            }
+
+            _nextStatus = _transactions[_currentStatusInside][_character];
+            _lastStatus = _outputValue[_nextStatus].ToString();
+            _chainGenerate += _lastStatus;
+            _currentStatusInside = _nextStatus;
+        }
+        else
+        {
+            _chainGenerate = "Error: Transición no válida";
+        }
+
+    }
+}
